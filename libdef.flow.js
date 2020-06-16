@@ -531,6 +531,10 @@ type $entur$sdk$TripPattern = {
     legs: Array<$entur$sdk$Leg>,
     startTime: string,
     walkDistance: number,
+    systemNotices: Array<{
+        tag: string,
+        text: string,
+    }>
 }
 
 type $entur$sdk$DeparturesById = {

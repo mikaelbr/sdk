@@ -39,6 +39,10 @@ query (${declaration}) {
             duration
             distance
             walkDistance
+            systemNotices {
+                tag
+                text
+            }
             legs {
                 ...${legFields}
             }
