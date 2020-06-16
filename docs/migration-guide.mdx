@@ -1,0 +1,15 @@
+---
+name: Getting Started
+route: /getting-started
+---
+
+# Migrating from v1 to v2
+
+## getTripPatterns returns an object with metadata
+
+In v1 `getTripPatterns` returned a list of TripPatterns. Now it returns an object with both `tripPatterns` and `metadata`.
+
+```diff
+-const tripPatterns = await getTripPatterns(myParams)
++const { tripPatterns, metadata } = await getTripPatterns(myParams)
+```

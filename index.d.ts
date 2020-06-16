@@ -273,6 +273,11 @@ export interface Location {
 /**
  * Trip
  */
+export interface Metadata {
+    searchWindowUsed: number
+    nextDateTime: string
+    prevDateTime: string
+}
 
 export interface Authority {
     id: string
@@ -761,7 +766,7 @@ export interface EnturService {
     getTripPatterns: (
         params: GetTripPatternsParams,
         overrideConfig?: OverrideConfig,
-    ) => Promise<TripPattern[]>
+    ) => Promise<{ tripPatterns: TripPattern[]; metadata?: Metadata }>
 
     findTrips: (
         from: string,

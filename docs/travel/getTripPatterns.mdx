@@ -7,10 +7,11 @@ route: /travel/getTripPatterns
 # getTripPatterns
 
 ```typescript
-(params: GetTripPatternsParams, overrideConfig?: OverrideConfig) => Promise<Array<TripPattern>>
+(params: GetTripPatternsParams, overrideConfig?: OverrideConfig) => Promise<{ tripPatterns: Array<TripPattern>, metadata?: Metadata }>
 ```
 
 Types: [TripPattern](flow-types/TripPattern.js)
+Types: [Metadata](types/Metadata.ts)
 
 `getTripPatterns` is for searching for itineraries for a trip from some location to a destination at a given time. The method takes one argument `query`, which is an object with search parameters.
 
@@ -83,20 +84,35 @@ const service = createEnturService({
     clientName: 'awesomecompany-awesomeapp'
 })
 
-service.getTripPatterns(
-    {
-        from: {
-            name: 'Ryllikvegen, Lillehammer',
-            coordinates: {
-                latitude: 61.102848368937416,
-                longitude: 10.51613308426234
-            },
-        },
-        to: {
-            place: 'NSR:StopPlace:337',
-            name: 'Oslo S, Oslo'
-        },
-        searchDate: new Date(),
+async function getTripPatterns() {
+    try {
+        const tripResults = await service.getTripPatterns(
+            {
+                from: {
+                    name: 'Ryllikvegen, Lillehammer',
+                    coordinates: {
+                        latitude: 61.102848368937416,
+                        longitude: 10.51613308426234
+                    },
+                },
+                to: {
+                    place: 'NSR:StopPlace:337',
+                    name: 'Oslo S, Oslo'
+                },
+                searchDate: new Date(),
+            }
+        })
+
+        const { tripPatterns, metadata } = tripResults
+
+        if (tripPatterns.length === 0 && metadata?.nextDateTime) {
+            // Maybe make another search with nextDateTime?
+        }
+
+        return tripPatterns
+    } catch (error) {
+        console.error(error)
+        return []
     }
 })
 ```

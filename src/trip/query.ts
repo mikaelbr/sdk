@@ -43,6 +43,11 @@ query (${declaration}) {
                 ...${legFields}
             }
         }
+        metadata {
+            searchWindowUsed
+            nextDateTime
+            prevDateTime
+        }
     }
 }
 

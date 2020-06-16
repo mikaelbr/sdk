@@ -14,6 +14,7 @@ import { getTripPatternQuery } from './query'
 import { legMapper } from './mapper'
 
 import { Location } from '../types/Location'
+import { Metadata } from '../../types/Metadata'
 import { TransportMode, TransportSubmode, QueryMode } from '../types/Mode'
 
 import { convertFeatureToLocation, isValidDate } from '../utils'
@@ -132,20 +133,25 @@ export function createGetTripPatterns(argConfig: ArgumentConfig) {
     return function getTripPatterns(
         params: GetTripPatternsParams,
         overrideConfig?: OverrideConfig,
-    ): Promise<TripPattern[]> {
-        return journeyPlannerQuery<{ trip: { tripPatterns: TripPattern[] } }>(
+    ): Promise<{ tripPatterns: TripPattern[]; metadata?: Metadata }> {
+        return journeyPlannerQuery<{
+            trip: { tripPatterns: TripPattern[]; metadata?: Metadata }
+        }>(
             getTripPatternQuery,
             getTripPatternsVariables(params),
             mergeConfig(config, overrideConfig),
         ).then((data) => {
-            if (!data?.trip?.tripPatterns) {
-                return []
-            }
+            const tripPatterns = (data?.trip?.tripPatterns || []).map(
+                (trip) => ({
+                    ...trip,
+                    legs: trip.legs.map(legMapper),
+                }),
+            )
 
-            return data.trip.tripPatterns.map((trip) => ({
-                ...trip,
-                legs: trip.legs.map(legMapper),
-            }))
+            return {
+                tripPatterns,
+                metadata: data?.trip?.metadata,
+            }
         })
     }
 }
@@ -197,6 +203,6 @@ export function createFindTrips(argConfig: ArgumentConfig) {
             from: convertFeatureToLocation(fromFeatures[0]),
             to: convertFeatureToLocation(toFeatures[0]),
             searchDate,
-        })
+        }).then(({ tripPatterns }) => tripPatterns)
     }
 }
