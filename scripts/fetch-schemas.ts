@@ -29,6 +29,15 @@ runIntrospectionQuery(
 )
 
 runIntrospectionQuery(
+    'https://api.entur.io/journey-planner/v3/graphql',
+).then((schema) =>
+    writeFile(
+        'schemas/journeyplanner3.json',
+        JSON.stringify(schema, undefined, 2),
+    ),
+)
+
+runIntrospectionQuery(
     'https://api.entur.io/stop-places/v1/graphql',
 ).then((schema) =>
     writeFile('schemas/nsr.json', JSON.stringify(schema, undefined, 2)),

@@ -8,7 +8,7 @@ To download updated schemas, run the ./scripts/fetch-schemas.sh script.
 import { parse, buildClientSchema } from 'graphql'
 import { validate } from 'graphql/validation'
 
-import journeyplanner2SchemaJSON from '../schemas/journeyplanner2.json'
+import journeyplanner3SchemaJSON from '../schemas/journeyplanner3.json'
 import nsrSchemaJSON from '../schemas/nsr.json'
 
 import {
@@ -37,10 +37,10 @@ import {
 
 import { getTripPatternQuery } from '../src/trip/query'
 
-const journeyplanner2Schema = buildClientSchema(journeyplanner2SchemaJSON.data)
+const journeyplanner3Schema = buildClientSchema(journeyplanner3SchemaJSON.data)
 const nsrSchema = buildClientSchema(nsrSchemaJSON.data)
 
-const jp2Queries = [
+const jp3queries = [
     { getBikeRentalStationQuery },
     { getBikeRentalStationsQuery },
     { getBikeRentalStationsByPositionQuery },
@@ -73,9 +73,9 @@ function validateQuery(queryName, query, schema) {
 }
 
 function runValidations() {
-    jp2Queries.forEach((obj) => {
+    jp3queries.forEach((obj) => {
         const [name, query] = Object.entries(obj)[0]
-        validateQuery(name, query, journeyplanner2Schema)
+        validateQuery(name, query, journeyplanner3Schema)
     })
     nsrQueries.forEach((obj) => {
         const [name, query] = Object.entries(obj)[0]
