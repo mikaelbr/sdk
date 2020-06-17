@@ -13,3 +13,7 @@ In v1 `getTripPatterns` returned a list of TripPatterns. Now it returns an objec
 -const tripPatterns = await getTripPatterns(myParams)
 +const { tripPatterns, metadata } = await getTripPatterns(myParams)
 ```
+
+## Deprecated fields have been removed
+
+`Situation.detail` has been removed. Please use `Situation.advice` instead.

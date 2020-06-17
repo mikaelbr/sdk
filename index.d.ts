@@ -66,7 +66,6 @@ export interface Situation {
     summary: MultilingualString[]
     description: MultilingualString[]
     advice: MultilingualString[]
-    detail: MultilingualString[] // Deprecated! `advice` should be used instead.
     lines: Line[]
     validityPeriod: ValidityPeriod
     reportType: ReportType
