@@ -233,7 +233,7 @@
                 },
                 {
                   "name": "boardSlackList",
-                  "description": "List of boardSlack for a given set of modes. Defaults: [water : 60, air : 2100]",
+                  "description": "List of boardSlack for a given set of modes. Defaults: [air : 2100, water : 60]",
                   "type": {
                     "kind": "LIST",
                     "ofType": {
@@ -253,7 +253,7 @@
                 },
                 {
                   "name": "alightSlackList",
-                  "description": "List of alightSlack for a given set of modes. Defaults: [water : 30, air : 900]",
+                  "description": "List of alightSlack for a given set of modes. Defaults: [air : 900, water : 30]",
                   "type": {
                     "kind": "LIST",
                     "ofType": {
@@ -960,8 +960,19 @@
             },
             {
               "name": "bikeRentalStations",
-              "description": "Get a single bike rental station based on its id",
-              "args": [],
+              "description": "Get all bike rental stations",
+              "args": [
+                {
+                  "name": "ids",
+                  "type": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String"
+                    }
+                  }
+                }
+              ],
               "type": {
                 "kind": "NON_NULL",
                 "ofType": {
