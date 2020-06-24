@@ -20,15 +20,6 @@ function runIntrospectionQuery(url: string): Promise<unknown> {
 }
 
 runIntrospectionQuery(
-    'https://api.entur.io/journey-planner/v2/graphql',
-).then((schema) =>
-    writeFile(
-        'schemas/journeyplanner2.json',
-        JSON.stringify(schema, undefined, 2),
-    ),
-)
-
-runIntrospectionQuery(
     'https://api.entur.io/journey-planner/v3/graphql',
 ).then((schema) =>
     writeFile(
