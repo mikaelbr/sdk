@@ -14,6 +14,39 @@ In v1 `getTripPatterns` returned a list of TripPatterns. Now it returns an objec
 +const { tripPatterns, metadata } = await getTripPatterns(myParams)
 ```
 
+## New `modes` parameter
+
+In v1, the `modes` parameter for `getTripPatterns` was an array of modes. Now, the `modes` parameter is an object which lets
+you provide a more fine-tuned specification of which trip patterns you are interested in:
+
+```
+interface Modes {
+    accessMode?: StreetMode | null
+    egressMode?: StreetMode | null
+    directMode?: StreetMode | null
+    transportMode?: TransportMode[]
+}
+```
+
+`transportMode` represents the allowed modes for the _transit_ part of the trip. Use an empty list to disallow transit for this search. If the element is not present or null, it will default to all transport modes.
+
+The `accessMode` and `egressMode` properties specify the allowed street mode to use in order to get to the first transit leg. The default is `foot`.
+
+`directMode` can be used to find trips with no transit leg. For instance, if you want to know how far it is to bike from A to B, you could use `directMode: 'bicycle'`.
+
+A common migration could look like this:
+```diff
+const tripResults = await service.getTripPatterns({
+-    modes: ['foot', 'bus', 'rail', 'tram'],
++    modes: {
++        directMode: 'foot',
++        transportMode: ['bus', 'rail', 'tram']
++    },
+```
+
+Note that `directMode: 'foot'` preserves the logic that you might get a trip pattern that is foot only (no transit legs).
+If you are not interested in this walk-only alternative, you can omit `directMode` or set it to `null`.
+
 ## Deprecated fields have been removed
 
 `Situation.detail` has been removed. Please use `Situation.advice` instead.
