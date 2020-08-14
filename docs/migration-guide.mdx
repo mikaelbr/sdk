@@ -47,6 +47,16 @@ const tripResults = await service.getTripPatterns({
 Note that `directMode: 'foot'` preserves the logic that you might get a trip pattern that is foot only (no transit legs).
 If you are not interested in this walk-only alternative, you can omit `directMode` or set it to `null`.
 
+## `minimumTransferTime` is replaced with `transferSlack`
+
+The parameter `minimumTransferTime` has been renamed to `transferSlack`:
+
+```diff
+const tripResults = await service.getTripPatterns({
+-    minimumTransferTime: 300,
++    transferSlack: 300,
+```
+
 ## Deprecated fields have been removed
 
 `Situation.detail` has been removed. Please use `Situation.advice` instead.
