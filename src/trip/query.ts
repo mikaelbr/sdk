@@ -10,7 +10,7 @@ const variables = {
     dateTime: 'DateTime!',
     arriveBy: 'Boolean!',
     wheelchair: 'Boolean!',
-    modes: '[Mode]!',
+    modes: 'Modes',
     transportSubmodes: '[TransportSubmodeFilter]',
     maxPreTransitWalkDistance: 'Float',
     walkSpeed: 'Float',

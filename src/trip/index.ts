@@ -1,13 +1,5 @@
 import { journeyPlannerQuery, getGraphqlParams } from '../api'
-import {
-    FOOT,
-    BUS,
-    TRAM,
-    RAIL,
-    METRO,
-    WATER,
-    AIR,
-} from '../constants/travelModes'
+import { BUS, TRAM, RAIL, METRO, WATER, AIR } from '../constants/travelModes'
 
 import { getTripPatternQuery } from './query'
 
@@ -15,7 +7,7 @@ import { legMapper } from './mapper'
 
 import { Location } from '../types/Location'
 import { Metadata } from '../../types/Metadata'
-import { TransportMode, TransportSubmode, QueryMode } from '../types/Mode'
+import { TransportMode, TransportSubmode } from '../types/Mode'
 
 import { convertFeatureToLocation, isValidDate } from '../utils'
 
@@ -65,6 +57,30 @@ interface InputWhiteListed {
     organisations?: string[]
 }
 
+export enum StreetMode {
+    FOOT = 'foot',
+    BICYCLE = 'bicycle',
+    BIKE_PARK = 'bike_park',
+    BIKE_RENTAL = 'bike_rental',
+    CAR = 'car',
+    CAR_PARK = 'car_park',
+    CAR_PICKUP = 'car_pickup',
+}
+
+interface Modes {
+    accessMode?: StreetMode | null
+    egressMode?: StreetMode | null
+    directMode?: StreetMode | null
+    transportMode?: TransportMode[]
+}
+
+const DEFAULT_MODES: Modes = {
+    accessMode: StreetMode.FOOT,
+    egressMode: StreetMode.FOOT,
+    directMode: null,
+    transportMode: [BUS, TRAM, RAIL, METRO, WATER, AIR],
+}
+
 export interface GetTripPatternsParams {
     from: Location
     to: Location
@@ -72,7 +88,7 @@ export interface GetTripPatternsParams {
     arriveBy?: boolean
     limit?: number
     maxPreTransitWalkDistance?: number
-    modes?: QueryMode[]
+    modes?: Modes
     searchDate?: Date
     transportSubmodes?: TransportSubmodeParam[]
     useFlex?: boolean
@@ -90,7 +106,7 @@ interface GetTripPatternsVariables {
     arriveBy: boolean
     numTripPatterns: number
     maxPreTransitWalkDistance?: number
-    modes: QueryMode[]
+    modes: Modes
     dateTime: string
     transportSubmodes: TransportSubmodeParam[]
     useFlex?: boolean
@@ -100,8 +116,6 @@ interface GetTripPatternsVariables {
     banned?: InputBanned
     whiteListed?: InputWhiteListed
 }
-
-const DEFAULT_MODES: QueryMode[] = [FOOT, BUS, TRAM, RAIL, METRO, WATER, AIR]
 
 function getTripPatternsVariables(
     params: GetTripPatternsParams,

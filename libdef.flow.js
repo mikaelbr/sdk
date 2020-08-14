@@ -503,6 +503,23 @@ type $entur$sdk$InputWhiteListed = {|
     organisations?: Array<string>,
 |}
 
+type StreetMode =
+    | 'foot'
+    | 'bicycle'
+    | 'bike_park'
+    | 'bike_rental'
+    | 'car'
+    | 'car_park'
+    | 'car_pickup'
+
+
+type $entur$sdk$Modes = {|
+    accessMode?: StreetMode | null,
+    egressMode?: StreetMode | null,
+    directMode?: StreetMode | null,
+    transportMode?: Array<$entur$sdk$TransportMode>,
+|}
+
 type $entur$sdk$GetTripPatternsParams = {
     from: $entur$sdk$Location,
     to: $entur$sdk$Location,
@@ -510,7 +527,7 @@ type $entur$sdk$GetTripPatternsParams = {
     arriveBy?: boolean,
     limit?: number,
     maxPreTransitWalkDistance?: number;
-    modes?: Array<$entur$sdk$QueryMode>,
+    modes?: $entur$sdk$Modes,
     searchDate?: Date,
     transportSubmodes?: Array<$entur$sdk$TransportSubmodeParam>,
     useFlex?: boolean,

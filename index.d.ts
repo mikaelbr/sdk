@@ -542,6 +542,23 @@ export interface InputWhiteListed {
     organisations?: string[]
 }
 
+declare enum StreetMode {
+    FOOT = 'foot',
+    BICYCLE = 'bicycle',
+    BIKE_PARK = 'bike_park',
+    BIKE_RENTAL = 'bike_rental',
+    CAR = 'car',
+    CAR_PARK = 'car_park',
+    CAR_PICKUP = 'car_pickup',
+}
+
+interface Modes {
+    accessMode?: StreetMode | null
+    egressMode?: StreetMode | null
+    directMode?: StreetMode | null
+    transportMode?: TransportMode[]
+}
+
 export interface GetTripPatternsParams {
     from: Location
     to: Location
@@ -549,7 +566,7 @@ export interface GetTripPatternsParams {
     arriveBy?: boolean
     limit?: number
     maxPreTransitWalkDistance?: number
-    modes?: QueryMode[]
+    modes?: Modes
     searchDate?: Date
     transportSubmodes?: TransportSubmodeParam[]
     useFlex?: boolean

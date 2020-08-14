@@ -9,7 +9,7 @@ export {
 } from './utils'
 
 export { TypeName } from './nearest/types'
-export { getTripPatternsQuery } from './trip'
+export { getTripPatternsQuery, StreetMode } from './trip'
 export { isBatteryScooter, isBatteryLevelScooter } from './scooters'
 export { ScooterOperator, BatteryLevel } from './scooters/types'
 
