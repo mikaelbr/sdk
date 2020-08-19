@@ -79,7 +79,7 @@ query(
     $limit: Int!,
     $dateTime: DateTime!,
     $arriveBy: Boolean!,
-    $modes: [Mode]!,
+    $modes: Modes,
     $transportSubmodes: [TransportSubmodeFilter]
 ) {
     trip(

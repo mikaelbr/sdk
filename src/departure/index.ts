@@ -7,7 +7,6 @@ import {
     WATER,
     AIR,
     COACH,
-    CAR,
 } from '../constants/travelModes'
 
 import { forceOrder } from '../utils'
@@ -208,7 +207,9 @@ export function createGetDeparturesBetweenStopPlaces(
             limit,
             dateTime: start.toISOString(),
             arriveBy: false,
-            modes: [BUS, TRAM, RAIL, METRO, WATER, AIR, COACH, CAR],
+            modes: {
+                transportMode: [BUS, TRAM, RAIL, METRO, WATER, AIR, COACH],
+            },
             ...rest,
         }
 
