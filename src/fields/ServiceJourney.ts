@@ -25,7 +25,6 @@ export interface ServiceJourney {
     notices?: Notice[]
     publicCode?: string
     privateCode?: string
-    transportSubmode?: TransportSubmode
 }
 
 export const fragmentName = 'serviceJourneyFields'
@@ -46,7 +45,6 @@ fragment ${fragmentName} on ServiceJourney {
     }
     publicCode
     privateCode
-    transportSubmode
 }
 `
 

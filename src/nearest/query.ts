@@ -2,10 +2,10 @@ export const getNearestPlacesQuery = `
 query (
     $latitude: Float!,
     $longitude: Float!,
-    $maximumDistance: Int,
+    $maximumDistance: Float!,
     $maximumResults: Int,
     $filterByPlaceTypes: [FilterPlaceType],
-    $filterByModes: [Mode],
+    $filterByModes: [TransportMode],
     $filterByInUse: Boolean,
     $multiModalMode: MultiModalMode
 ) {

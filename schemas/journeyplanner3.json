@@ -556,6 +556,11 @@
           ]
         },
         {
+          "kind": "SCALAR",
+          "name": "DoubleFunction",
+          "description": "A linear function to calculate a value(y) based on a parameter (x): `y = f(x) = a + bx`. It allows setting both a constant(a) and a coefficient(b) and the use those in the computation. Format: `a + b x`. Example: `1800 + 2.0 x`"
+        },
+        {
           "kind": "OBJECT",
           "name": "EstimatedCall",
           "description": "List of visits to quays as part of vehicle journeys. Updated with real time information where available",
@@ -919,7 +924,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "InputFilters",
+          "name": "InputPlaceIds",
           "inputFields": [
             {
               "name": "quays",
@@ -1388,7 +1393,7 @@
               "args": [],
               "type": {
                 "kind": "ENUM",
-                "name": "TransportSubmode"
+                "name": "transportSubmode"
               },
               "isDeprecated": false
             },
@@ -1725,11 +1730,10 @@
             },
             {
               "name": "transportSubmode",
-              "description": "NOT IMPLEMENTED",
               "args": [],
               "type": {
                 "kind": "ENUM",
-                "name": "TransportSubmode"
+                "name": "transportSubmode"
               },
               "isDeprecated": false
             },
@@ -2014,13 +2018,13 @@
               }
             },
             {
-              "name": "transportMode",
+              "name": "transportModes",
               "description": "The allowed modes for the transit part of the trip. Use an empty list to disallow transit for this search. If the element is not present or null, it will default to all transport modes.",
               "type": {
                 "kind": "LIST",
                 "ofType": {
-                  "kind": "ENUM",
-                  "name": "TransportMode"
+                  "kind": "INPUT_OBJECT",
+                  "name": "transportModes"
                 }
               }
             }
@@ -3268,6 +3272,14 @@
                   "defaultValue": "no"
                 },
                 {
+                  "name": "transitGeneralizedCostLimit",
+                  "description": "Set a relative limit for all transit itineraries. The limit is calculated based on the best transit itinerary generalized-cost. Itineraries without transit legs are excluded from this filter. Example: f(x) = 3600 + 2.0 x. If the lowest cost returned is 10 000, then the limit is set to: 3 600 + 2 * 10 000 = 26 600. Then all itineraries with at least one transit leg and a cost above 26 600 is removed from the result. Default: null",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "DoubleFunction"
+                  }
+                },
+                {
                   "name": "walkReluctance",
                   "description": "Walk cost is multiplied by this value. This is the main parameter to use for limiting walking.",
                   "type": {
@@ -3717,7 +3729,7 @@
                   "description": "Only include places that match one of the given ids.",
                   "type": {
                     "kind": "INPUT_OBJECT",
-                    "name": "InputFilters"
+                    "name": "InputPlaceIds"
                   }
                 },
                 {
@@ -4929,16 +4941,6 @@
               "isDeprecated": false
             },
             {
-              "name": "transportSubmode",
-              "description": "The transport submode of the journey, if different from lines transport submode. NOT IMPLEMENTED",
-              "args": [],
-              "type": {
-                "kind": "ENUM",
-                "name": "TransportSubmode"
-              },
-              "isDeprecated": false
-            },
-            {
               "name": "publicCode",
               "description": "Publicly announced code for service journey, differentiating it from other service journeys for the same line.",
               "args": [],
@@ -5235,17 +5237,6 @@
                 }
               },
               "isDeprecated": false
-            },
-            {
-              "name": "transportSubmode",
-              "description": "The transport submode serviced by this stop place. NOT IMPLEMENTED",
-              "args": [],
-              "type": {
-                "kind": "ENUM",
-                "name": "TransportSubmode"
-              },
-              "isDeprecated": true,
-              "deprecationReason": "Submodes not implemented"
             },
             {
               "name": "quays",
@@ -5620,7 +5611,6 @@
         {
           "kind": "ENUM",
           "name": "TransportMode",
-          "description": "NOT IMPLEMENTED",
           "enumValues": [
             {
               "name": "air",
@@ -5740,460 +5730,6 @@
             }
           ],
           "interfaces": []
-        },
-        {
-          "kind": "ENUM",
-          "name": "TransportSubmode",
-          "enumValues": [
-            {
-              "name": "unknown",
-              "isDeprecated": false
-            },
-            {
-              "name": "undefined",
-              "isDeprecated": false
-            },
-            {
-              "name": "internationalFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "domesticFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "intercontinentalFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "domesticScheduledFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "shuttleFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "intercontinentalCharterFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "internationalCharterFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "roundTripCharterFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "sightseeingFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "helicopterService",
-              "isDeprecated": false
-            },
-            {
-              "name": "domesticCharterFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "SchengenAreaFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "airshipService",
-              "isDeprecated": false
-            },
-            {
-              "name": "shortHaulInternationalFlight",
-              "isDeprecated": false
-            },
-            {
-              "name": "canalBarge",
-              "isDeprecated": false
-            },
-            {
-              "name": "localBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "regionalBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "expressBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "nightBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "postBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "specialNeedsBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "mobilityBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "mobilityBusForRegisteredDisabled",
-              "isDeprecated": false
-            },
-            {
-              "name": "sightseeingBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "shuttleBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "highFrequencyBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "dedicatedLaneBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "schoolBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "schoolAndPublicServiceBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "railReplacementBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "demandAndResponseBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "airportLinkBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "internationalCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "nationalCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "shuttleCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "regionalCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "specialCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "schoolCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "sightseeingCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "touristCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "commuterCoach",
-              "isDeprecated": false
-            },
-            {
-              "name": "funicular",
-              "isDeprecated": false
-            },
-            {
-              "name": "streetCableCar",
-              "isDeprecated": false
-            },
-            {
-              "name": "allFunicularServices",
-              "isDeprecated": false
-            },
-            {
-              "name": "undefinedFunicular",
-              "isDeprecated": false
-            },
-            {
-              "name": "metro",
-              "isDeprecated": false
-            },
-            {
-              "name": "tube",
-              "isDeprecated": false
-            },
-            {
-              "name": "urbanRailway",
-              "isDeprecated": false
-            },
-            {
-              "name": "cityTram",
-              "isDeprecated": false
-            },
-            {
-              "name": "localTram",
-              "isDeprecated": false
-            },
-            {
-              "name": "regionalTram",
-              "isDeprecated": false
-            },
-            {
-              "name": "sightseeingTram",
-              "isDeprecated": false
-            },
-            {
-              "name": "shuttleTram",
-              "isDeprecated": false
-            },
-            {
-              "name": "trainTram",
-              "isDeprecated": false
-            },
-            {
-              "name": "telecabin",
-              "isDeprecated": false
-            },
-            {
-              "name": "cableCar",
-              "isDeprecated": false
-            },
-            {
-              "name": "lift",
-              "isDeprecated": false
-            },
-            {
-              "name": "chairLift",
-              "isDeprecated": false
-            },
-            {
-              "name": "dragLift",
-              "isDeprecated": false
-            },
-            {
-              "name": "telecabinLink",
-              "isDeprecated": false
-            },
-            {
-              "name": "local",
-              "isDeprecated": false
-            },
-            {
-              "name": "highSpeedRail",
-              "isDeprecated": false
-            },
-            {
-              "name": "suburbanRailway",
-              "isDeprecated": false
-            },
-            {
-              "name": "regionalRail",
-              "isDeprecated": false
-            },
-            {
-              "name": "interregionalRail",
-              "isDeprecated": false
-            },
-            {
-              "name": "longDistance",
-              "isDeprecated": false
-            },
-            {
-              "name": "international",
-              "isDeprecated": false
-            },
-            {
-              "name": "sleeperRailService",
-              "isDeprecated": false
-            },
-            {
-              "name": "nightRail",
-              "isDeprecated": false
-            },
-            {
-              "name": "carTransportRailService",
-              "isDeprecated": false
-            },
-            {
-              "name": "touristRailway",
-              "isDeprecated": false
-            },
-            {
-              "name": "airportLinkRail",
-              "isDeprecated": false
-            },
-            {
-              "name": "railShuttle",
-              "isDeprecated": false
-            },
-            {
-              "name": "replacementRailService",
-              "isDeprecated": false
-            },
-            {
-              "name": "specialTrain",
-              "isDeprecated": false
-            },
-            {
-              "name": "crossCountryRail",
-              "isDeprecated": false
-            },
-            {
-              "name": "rackAndPinionRailway",
-              "isDeprecated": false
-            },
-            {
-              "name": "internationalCarFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "nationalCarFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "regionalCarFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "localCarFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "internationalPassengerFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "nationalPassengerFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "regionalPassengerFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "localPassengerFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "postBoat",
-              "isDeprecated": false
-            },
-            {
-              "name": "trainFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "roadFerryLink",
-              "isDeprecated": false
-            },
-            {
-              "name": "airportBoatLink",
-              "isDeprecated": false
-            },
-            {
-              "name": "highSpeedVehicleService",
-              "isDeprecated": false
-            },
-            {
-              "name": "highSpeedPassengerService",
-              "isDeprecated": false
-            },
-            {
-              "name": "sightseeingService",
-              "isDeprecated": false
-            },
-            {
-              "name": "schoolBoat",
-              "isDeprecated": false
-            },
-            {
-              "name": "cableFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "riverBus",
-              "isDeprecated": false
-            },
-            {
-              "name": "scheduledFerry",
-              "isDeprecated": false
-            },
-            {
-              "name": "shuttleFerryService",
-              "isDeprecated": false
-            },
-            {
-              "name": "communalTaxi",
-              "isDeprecated": false
-            },
-            {
-              "name": "charterTaxi",
-              "isDeprecated": false
-            },
-            {
-              "name": "waterTaxi",
-              "isDeprecated": false
-            },
-            {
-              "name": "railTaxi",
-              "isDeprecated": false
-            },
-            {
-              "name": "bikeTaxi",
-              "isDeprecated": false
-            },
-            {
-              "name": "blackCab",
-              "isDeprecated": false
-            },
-            {
-              "name": "miniCab",
-              "isDeprecated": false
-            },
-            {
-              "name": "allTaxiServices",
-              "isDeprecated": false
-            },
-            {
-              "name": "hireCar",
-              "isDeprecated": false
-            },
-            {
-              "name": "hireVan",
-              "isDeprecated": false
-            },
-            {
-              "name": "hireMotorbike",
-              "isDeprecated": false
-            },
-            {
-              "name": "hireCycle",
-              "isDeprecated": false
-            },
-            {
-              "name": "allHireVehicles",
-              "isDeprecated": false
-            }
-          ]
         },
         {
           "kind": "OBJECT",
@@ -7345,6 +6881,197 @@
             }
           ],
           "interfaces": []
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "transportModes",
+          "inputFields": [
+            {
+              "name": "transportMode",
+              "description": "A transportMode that should be allowed for this search. You can furthernarrow it down by specifying a list of transportSubModes",
+              "type": {
+                "kind": "ENUM",
+                "name": "TransportMode"
+              }
+            },
+            {
+              "name": "transportSubModes",
+              "description": "The allowed transportSubModes for this search. If this element is notpresent or null, it will default to all transportSubModes for the specifiedTransportMode. Be aware that all transportSubModes have an associated TransportMode, which must match what is specified in the transportMode field.",
+              "type": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "transportSubmode"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "ENUM",
+          "name": "transportSubmode",
+          "enumValues": [
+            {
+              "name": "touristRailway",
+              "description": "A train focusing primarily on the experience (tourism) of the journey instead of efficiency and speed. Usually outdated train models, sometimes on different gauge rails. (TransportMode: RAIL)",
+              "isDeprecated": false
+            },
+            {
+              "name": "railReplacementBus",
+              "description": "A temporary bus service replacing a temporarily disabled rail line. (TransportMode: BUS)",
+              "isDeprecated": false
+            },
+            {
+              "name": "shuttleBus",
+              "description": "A local bus which acts only as a feeder route to other transports. Usually connecting to coaches, trains or airports. (TransportMode: BUS)",
+              "isDeprecated": false
+            },
+            {
+              "name": "airportLinkRail",
+              "description": "Airport express trains. (TransportMode: RAIL)",
+              "isDeprecated": false
+            },
+            {
+              "name": "cityTram",
+              "description": "Specifically the Bergen Light Rail (TransportMode: TRAM)",
+              "isDeprecated": false
+            },
+            {
+              "name": "expressBus",
+              "description": "A regional bus serving fewer stops than its regionalBus counterpart (express departure). Not to be confused with coach services. (TransportMode: BUS)",
+              "isDeprecated": false
+            },
+            {
+              "name": "nightBus",
+              "description": "A local bus operating exclusively and specifically at night (usually midnight-5:00). (TransportMode: BUS)",
+              "isDeprecated": false
+            },
+            {
+              "name": "highSpeedVehicleService",
+              "description": "A high speed boat service with car carrying capacity. The ship type is usually a catamaran. (TransportMode: FERRY)",
+              "isDeprecated": false
+            },
+            {
+              "name": "international",
+              "description": "Diesel-trains which are not local- or intercity trains. (TransportMode: RAIL)",
+              "isDeprecated": false
+            },
+            {
+              "name": "schoolBus",
+              "description": "A local bus specifically transporting students from their homes to their schools, but which may be used by the general public. (TransportMode: BUS)",
+              "isDeprecated": false
+            },
+            {
+              "name": "regionalRail",
+              "description": "Electrical trains which are not local- or intercity trains. (TransportMode: RAIL)",
+              "isDeprecated": false
+            },
+            {
+              "name": "internationalCarFerry",
+              "description": "Car-carrying cruise ships between countries. (TransportMode: FERRY)",
+              "isDeprecated": false
+            },
+            {
+              "name": "regionalBus",
+              "description": "Any medium range buses which are not localBus, express bus, airport link bus, or a coach. (TransportMode: BUS)",
+              "isDeprecated": false
+            },
+            {
+              "name": "localBus",
+              "description": "Any short range bus routes, city buses, or open school lines which are not distinctly marked with the school bus mode. (TransportMode: BUS)",
+              "isDeprecated": false
+            },
+            {
+              "name": "highSpeedPassengerService",
+              "description": "A high speed boat service which does not carry cars. The ship type is usually a catamaran. (TransportMode: FERRY)",
+              "isDeprecated": false
+            },
+            {
+              "name": "nationalCarFerry",
+              "description": "A long-distance car-carrying ship which does not cross and international border. (TransportMode: FERRY)",
+              "isDeprecated": false
+            },
+            {
+              "name": "internationalCoach",
+              "description": "A long-distance coach service which crosses an international border. (TransportMode: COACH)",
+              "isDeprecated": false
+            },
+            {
+              "name": "internationalPassengerFerry",
+              "description": "Ships to international destinations which do not carry cars. (TransportMode: FERRY)",
+              "isDeprecated": false
+            },
+            {
+              "name": "nationalCoach",
+              "description": "A long-distance coach service which does not cross an international border. (TransportMode: COACH)",
+              "isDeprecated": false
+            },
+            {
+              "name": "sightseeingService",
+              "description": "A boat service focusing primarily on the experience (tourism) of the journey instead of efficiency and speed. Usually older ships. (TransportMode: FERRY)",
+              "isDeprecated": false
+            },
+            {
+              "name": "helicopterService",
+              "description": "A helicopter service. (TransportMode: AIRPLANE)",
+              "isDeprecated": false
+            },
+            {
+              "name": "domesticFlight",
+              "description": "An aeroplane service to a domestic destination. (TransportMode: AIRPLANE)",
+              "isDeprecated": false
+            },
+            {
+              "name": "nightRail",
+              "description": "Train services with a particular focus on overnight journeys with sleeping compartments. (TransportMode: RAIL)",
+              "isDeprecated": false
+            },
+            {
+              "name": "sightseeingBus",
+              "description": "A bus focusing primarily on the experience (tourism) of the journey instead of efficiency and speed. (TransportMode: BUS)",
+              "isDeprecated": false
+            },
+            {
+              "name": "localTram",
+              "description": "A tram service that shares the road with other vehicles. (TransportMode: TRAM)",
+              "isDeprecated": false
+            },
+            {
+              "name": "longDistance",
+              "description": "Intercity trains. (TransportMode: RAIL)",
+              "isDeprecated": false
+            },
+            {
+              "name": "local",
+              "description": "Local train services for commuters and suburban transport. (TransportMode: RAIL)",
+              "isDeprecated": false
+            },
+            {
+              "name": "localCarFerry",
+              "description": "Car-carrying ships between, or as part of road networks. Does not include high speed services. (TransportMode: FERRY)",
+              "isDeprecated": false
+            },
+            {
+              "name": "interregionalRail",
+              "description": "Trains which cross an international border. (TransportMode: RAIL)",
+              "isDeprecated": false
+            },
+            {
+              "name": "localPassengerFerry",
+              "description": "Boat services which are not: international, car carrying, or high-speed services. (TransportMode: FERRY)",
+              "isDeprecated": false
+            },
+            {
+              "name": "internationalFlight",
+              "description": "An aeroplane service to an international destination. (TransportMode: AIRPLANE)",
+              "isDeprecated": false
+            },
+            {
+              "name": "airportLinkBus",
+              "description": "A bus route specifically aimed at transporting passengers to and from airports. Usually with special board/alight-rules on the intermediary stops. (TransportMode: BUS)",
+              "isDeprecated": false
+            }
+          ]
         }
       ],
       "directives": [

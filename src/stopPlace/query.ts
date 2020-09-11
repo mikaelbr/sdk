@@ -11,10 +11,8 @@ query($id: String!, $filterByInUse: Boolean) {
         description
         latitude
         longitude
-        wheelchairBoarding
         weighting
         transportMode
-        transportSubmode
         quays(filterByInUse: $filterByInUse) {
             ...${quayFields}
         }
@@ -32,10 +30,8 @@ query($ids: [String]!, $filterByInUse: Boolean) {
         description
         latitude
         longitude
-        wheelchairBoarding
         weighting
         transportMode
-        transportSubmode
         quays(filterByInUse: $filterByInUse) {
             ...${quayFields}
         }
@@ -54,10 +50,8 @@ query($id: String!, $filterByInUse: Boolean) {
             description
             latitude
             longitude
-            wheelchairBoarding
             weighting
             transportMode
-            transportSubmode
             quays(filterByInUse: $filterByInUse) {
                 ...${quayFields}
             }
@@ -70,10 +64,10 @@ ${quayFragments.join('')}
 
 export const getStopPlacesByBboxQuery = `
 query(
-    $minLat: Float,
-    $minLng: Float,
-    $maxLng: Float,
-    $maxLat: Float,
+    $minLat: Float!,
+    $minLng: Float!,
+    $maxLng: Float!,
+    $maxLat: Float!,
     $filterByInUse: Boolean
 ) {
     stopPlacesByBbox(
@@ -87,10 +81,8 @@ query(
         description
         latitude
         longitude
-        wheelchairBoarding
         weighting
         transportMode
-        transportSubmode
         quays(filterByInUse: $filterByInUse) {
             ...${quayFields}
         }

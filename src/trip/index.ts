@@ -37,11 +37,6 @@ interface TripPattern {
     }>
 }
 
-interface TransportSubmodeParam {
-    transportMode: TransportMode
-    transportSubmodes: TransportSubmode[]
-}
-
 interface InputBanned {
     lines?: string[]
     authorities?: string[]
@@ -67,31 +62,39 @@ export enum StreetMode {
     CAR_PICKUP = 'car_pickup',
 }
 
+interface Mode {
+    transportMode: TransportMode
+    transportSubModes?: TransportSubmode[]
+}
+
 interface Modes {
     accessMode?: StreetMode | null
     egressMode?: StreetMode | null
     directMode?: StreetMode | null
-    transportMode?: TransportMode[]
+    transportMode?: Mode[]
 }
 
 const DEFAULT_MODES: Modes = {
     accessMode: StreetMode.FOOT,
     egressMode: StreetMode.FOOT,
     directMode: null,
-    transportMode: [BUS, TRAM, RAIL, METRO, WATER, AIR],
+    transportMode: [
+        { transportMode: BUS },
+        { transportMode: TRAM },
+        { transportMode: RAIL },
+        { transportMode: METRO },
+        { transportMode: WATER },
+        { transportMode: AIR },
+    ],
 }
 
 export interface GetTripPatternsParams {
     from: Location
     to: Location
-    allowBikeRental?: boolean
     arriveBy?: boolean
     limit?: number
-    maxPreTransitWalkDistance?: number
     modes?: Modes
     searchDate?: Date
-    transportSubmodes?: TransportSubmodeParam[]
-    useFlex?: boolean
     walkSpeed?: number
     transferSlack?: number
     wheelchairAccessible?: boolean
@@ -102,17 +105,13 @@ export interface GetTripPatternsParams {
 interface GetTripPatternsVariables {
     from: Location
     to: Location
-    allowBikeRental?: boolean
     arriveBy: boolean
     numTripPatterns: number
-    maxPreTransitWalkDistance?: number
     modes: Modes
     dateTime: string
-    transportSubmodes: TransportSubmodeParam[]
-    useFlex?: boolean
     walkSpeed?: number
     transferSlack?: number
-    wheelchair: boolean
+    wheelchairAccessible: boolean
     banned?: InputBanned
     whiteListed?: InputWhiteListed
 }
@@ -126,7 +125,6 @@ function getTripPatternsVariables(
         searchDate = new Date(),
         arriveBy = false,
         modes = DEFAULT_MODES,
-        transportSubmodes = [],
         wheelchairAccessible = false,
         limit = 5,
         ...rest
@@ -139,8 +137,7 @@ function getTripPatternsVariables(
         dateTime: searchDate.toISOString(),
         arriveBy,
         modes,
-        transportSubmodes,
-        wheelchair: wheelchairAccessible,
+        wheelchairAccessible,
         numTripPatterns: limit,
     }
 }

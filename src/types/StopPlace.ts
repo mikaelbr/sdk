@@ -1,5 +1,5 @@
 import { MultilingualString } from './MultilingualString'
-import { TransportMode, TransportSubmode } from './Mode'
+import { TransportMode } from './Mode'
 
 import { Quay } from '../fields/Quay'
 
@@ -9,14 +9,12 @@ export interface StopPlaceDetails {
     description?: string
     latitude: number
     longitude: number
-    wheelchairBoarding: 'noInformation' | 'possible' | 'notPossible'
     weighting:
         | 'preferredInterchange'
         | 'recommendedInterchange'
         | 'interchangeAllowed'
         | 'noInterchange'
     transportMode: TransportMode
-    transportSubmode?: TransportSubmode
     quays?: Quay[]
 }
 

@@ -25,10 +25,10 @@ ${bikeRentalStationFragments.join('')}
 
 export const getBikeRentalStationsByPositionQuery = `
 query(
-    $minLat: Float,
-    $minLng: Float,
-    $maxLat: Float,
-    $maxLng: Float
+    $minLat: Float!,
+    $minLng: Float!,
+    $maxLat: Float!,
+    $maxLng: Float!,
 ) {
     bikeRentalStationsByBbox(
         minimumLatitude: $minLat,

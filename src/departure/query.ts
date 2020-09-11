@@ -16,10 +16,9 @@ query(
     $limit: Int!,
     $limitPerLine: Int,
     $omitNonBoarding: Boolean!,
-    $whiteListedLines: [String!],
-    $whiteListedAuthorities: [String!],
-    $whiteListedModes: [Mode],
-    $includeCancelledTrips: Boolean!
+    $whiteListedLines: [ID!],
+    $whiteListedAuthorities: [ID!],
+    $whiteListedModes: [TransportMode],
 ) {
     stopPlaces(ids: $ids) {
         id
@@ -34,7 +33,6 @@ query(
                 authorities: $whiteListedAuthorities,
             },
             whiteListedModes: $whiteListedModes,
-            includeCancelledTrips: $includeCancelledTrips
         ) {
             ...${estimatedCallFields}
         }
@@ -52,7 +50,6 @@ query(
     $limit: Int!,
     $limitPerLine: Int,
     $omitNonBoarding: Boolean!,
-    $includeCancelledTrips: Boolean!
 ) {
     quays(ids: $ids) {
         id
@@ -61,7 +58,6 @@ query(
             timeRange: $timeRange,
             numberOfDepartures: $limit,
             omitNonBoarding: $omitNonBoarding,
-            includeCancelledTrips: $includeCancelledTrips,
             numberOfDeparturesPerLineAndDestinationDisplay: $limitPerLine
         ) {
             ...${estimatedCallFields}
@@ -80,7 +76,6 @@ query(
     $dateTime: DateTime!,
     $arriveBy: Boolean!,
     $modes: Modes,
-    $transportSubmodes: [TransportSubmodeFilter]
 ) {
     trip(
         from: $from,
@@ -89,8 +84,7 @@ query(
         dateTime: $dateTime,
         arriveBy: $arriveBy,
         modes: $modes,
-        transportSubmodes: $transportSubmodes,
-        wheelchair: false,
+        wheelchairAccessible: false,
         maximumTransfers: 0
     ) {
         tripPatterns {
